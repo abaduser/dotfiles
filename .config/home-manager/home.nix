@@ -6,6 +6,10 @@
   home.username = "zircon";
   home.homeDirectory = "/home/zircon";
 
+  # Enable genericLinux support
+  targets.genericLinux.enable = true;
+  xdg.mime.enable = true;
+
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -37,6 +41,7 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+    pkgs.neovim
     pkgs.tmux
     pkgs.zoxide
     pkgs.nodejs
@@ -52,12 +57,11 @@
     userName = "abaduser";
     userEmail = "abaduser.pw@proton.me";
   };
-
   programs.zsh = {
     enable = true;
     shellAliases = {
       ll = "ls -l";
-      update = "sudo dnf upgrade && home-manager switch";
+      update = "sudo apt update && sudo apt upgrade && home-manager switch";
       dotfiles = "~/.nix-profile/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
     };
     oh-my-zsh = {
@@ -65,13 +69,6 @@
       plugins = [ "git" ];
       theme = "robbyrussell";
     };
-  };
-
-  programs.neovim = {
-    enable = true;
-    extraConfig = ''
-      set autoindent expandtab tabstop=4 shiftwidth=2
-    '';
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -106,6 +103,7 @@
   #
   home.sessionVariables = {
     # EDITOR = "emacs";
+    ZSH_CUSTOM="/home/zircon/.config/oh-my-zsh-custom";
   };
 
   # Let Home Manager install and manage itself.
