@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 
+# https://github.com/nix-community/home-manager/tree/master/modules/
+
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -33,7 +35,7 @@
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
     # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    (pkgs.nerdfonts.override { fonts = [ "Lilex" ]; })
     # 
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
@@ -42,15 +44,16 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
     pkgs.neovim
+    pkgs.lsd
     pkgs.tmux
     pkgs.zoxide
-    pkgs.nodejs
     pkgs.python3
-    pkgs.pipenv
     pkgs.cargo
     pkgs.rustc
     pkgs.vscode
+    pkgs.gnucash
   ];
+  fonts.fontconfig.enable = true;
 
   programs.git = {
     enable = true;
@@ -60,15 +63,21 @@
   programs.zsh = {
     enable = true;
     shellAliases = {
-      ll = "ls -l";
-      update = "sudo apt update && sudo apt upgrade && home-manager switch";
+      ls = "lsd";
+      ll = "lsd -l";
+      update = "sudo apt update && sudo apt upgrade && sudo snap refresh && nix-channel --update && home-manager switch";
       dotfiles = "~/.nix-profile/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME";
     };
     oh-my-zsh = {
       enable = true;
       plugins = [ "git" ];
       theme = "robbyrussell";
+      custom = "$HOME/.config/oh-my-zsh-custom/";
     };
+  };
+  
+  programs.fzf = {
+    enable = true;
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -103,7 +112,6 @@
   #
   home.sessionVariables = {
     # EDITOR = "emacs";
-    ZSH_CUSTOM="/home/zircon/.config/oh-my-zsh-custom";
   };
 
   # Let Home Manager install and manage itself.

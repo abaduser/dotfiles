@@ -1,1 +1,4 @@
-/nix/store/hb1034n4w5qhiwd7l1zy30xlajd1njlv-home-manager-files/.config/nvim/init.lua
+require("core.keymaps")
+require("core.settings")
+require("core.plugins")
+require("core.plugin_config")
