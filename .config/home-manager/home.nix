@@ -5,8 +5,8 @@
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "zircon";
-  home.homeDirectory = "/home/zircon";
+  home.username = "abaduser";
+  home.homeDirectory = "/home/abaduser";
 
   # Enable genericLinux support
   targets.genericLinux.enable = true;
@@ -46,6 +46,11 @@
     pkgs.neovim
     pkgs.lsd
     pkgs.tmux
+    pkgs.yt-dlp
+    pkgs.obsidian
+    pkgs.spotifyd
+    pkgs.spotify-tui
+    pkgs.discord
     pkgs.zoxide
     pkgs.python3
     pkgs.cargo
@@ -93,6 +98,16 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+  };
+
+  services.spotifyd = {
+    enable = true;
+    settings = {
+        global = {
+            username = builtins.getEnv "SPOTIFY_USERNAME";
+            password = builtins.getEnv "SPOTIFY_PASSWORD";
+        };
+    };
   };
 
   # Home Manager can also manage your environment variables through
